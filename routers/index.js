@@ -9,7 +9,9 @@ router.use("/comment", comment);
 router.use("/keyword", keyword);
 
 const authRouter = require("./auth");
+const generateRouter = require("./generate");
 
 router.use("/auth", authRouter);
+router.use("/generate", generateRouter);
 
 module.exports = router;

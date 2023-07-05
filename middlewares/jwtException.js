@@ -9,10 +9,6 @@ const jwtException = async (req, res, next) => {
         return res.status(401).json({ error: "Invalid token" });
       }
     });
-    const redisInfo = {
-      host: process.env.REDIS_HOST,
-      port: process.env.REDIS_PORT,
-    };
     next();
   } catch (error) {
     console.log(error);

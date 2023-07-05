@@ -15,10 +15,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    query = `SELECT *
-    FROM Board
-    JOIN Keyword ON Board.BoardId = Keyword.BoardId
-    WHERE Board.BoardId = ${id}`;
+    query = `SELECT * FROM Board WHERE BoardId = ${id}`;
     viewQuery = `update Board set views = views + 1 where BoardId = ${id}`;
     [sql] = await db.query(query);
     db.query(viewQuery);

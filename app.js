@@ -5,10 +5,6 @@ require("dotenv").config();
 
 const router = require("./routers");
 
-const { connect } = require("./models/connection");
-
-connect();
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

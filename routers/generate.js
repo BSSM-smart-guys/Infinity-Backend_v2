@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { Configuration, OpenAIApi } = require("openai");
-const multer = require("multer");
-const path = require("path");
 const jwt = require("jsonwebtoken");
 const db = require("../models/connection");
 const jwtException = require("../middlewares/jwtException");
@@ -31,19 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "/public/images/");
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    cb(null, path.basename(file.originalname, ext));
-  },
-});
-
-const upload = multer({ storage: storage });
-
-router.post("/save", upload.single("image"), jwtException, async (req, res) => {
+router.post("/save", jwtException, async (req, res) => {
   //생성 날짜, 작성자
   const { title, content, keywords } = req.body;
   const token = req.headers.authorization.split(" ")[1];

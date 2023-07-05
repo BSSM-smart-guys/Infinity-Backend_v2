@@ -14,9 +14,14 @@ router.get("/login", async (req, res) => {
 
   try {
     const [verifyResult] = await db.query(
-      `SELECT * FROM user WHERE UserId = ${userCode} AND UserName = '${nickname}'`
+      `SELECT * FROM user WHERE UserId = ${userCode}`
     );
+  } catch (error) {
+    await db.query(`INSERT INTO user VALUES(${userCode}, '${nickname}')`);
+    return res.json("success");
+  }
 
+  try {
     const accessToken = jwt.sign(
       {
         id: userCode,
@@ -25,14 +30,14 @@ router.get("/login", async (req, res) => {
       process.env.JWT_SECRET
     );
 
-    res.status(200).json({ accessToken: accessToken });
+    return res.redirect(
+      `http://localhost:3000/?accessToken=${Buffer.from(accessToken).toString(
+        "base64"
+      )}`
+    );
   } catch (error) {
     console.log(error);
-    await db.query(`INSERT INTO user VALUES(${userCode}, '${nickname}')`);
-    res.status(200).json("success");
   }
-
-  res.status(200);
 });
 
 const getUserInfo = async (res, authCode) => {

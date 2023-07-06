@@ -3,7 +3,7 @@ const router = express.Router();
 const { Configuration, OpenAIApi } = require("openai");
 const jwt = require("jsonwebtoken");
 const db = require("../models/connection");
-const jwtException = require("../middlewares/jwtException");
+const jwtFilter = require("../middlewares/jwtFilter");
 
 const configuration = new Configuration({
   apiKey: process.env.CHATGPT_API_KEY,
@@ -11,7 +11,7 @@ const configuration = new Configuration({
 
 router.post("/", async (req, res) => {
   const { keywords } = req.body;
-  const question = `${keywords} 이 키워드를 활용해서 소설을 써줘. 글자 수는 200자 내로 해줘`;
+  const question = `${keywords} 이 키워드를 활용해서 소설을 써줘. 글자 수는 200자 내로 해줘. 특수기호는 포함하지 않고 한글로만 작성해줘.`;
 
   try {
     const openai = new OpenAIApi(configuration);
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/save", jwtException, async (req, res) => {
+router.post("/save", jwtFilter, async (req, res) => {
   //생성 날짜, 작성자
   const { title, content, keywords } = req.body;
   const token = req.headers.authorization.split(" ")[1];

@@ -13,30 +13,23 @@ router.get("/login", async (req, res) => {
   const { userCode, nickname } = await getUserInfo(res, authCode);
 
   try {
-    const [verifyResult] = await db.query(
+    const [row] = await db.query(
       `SELECT * FROM user WHERE UserId = ${userCode}`
     );
-  } catch (error) {
-    await db.query(`INSERT INTO user VALUES(${userCode}, '${nickname}')`);
-    return res.json("success");
-  }
+    if (row.length > 0) {
+      let values = Object.values(row[0], [1], [2], [3]);
+      console.log(values);
+      req.session.loginData = {
+        userCode: values[0],
+        userNickname: values[1],
+      };
+      req.session.save;
+    }
 
-  try {
-    const accessToken = jwt.sign(
-      {
-        id: userCode,
-        exp: Math.floor(Date.now() / 1000) + 60 * 30, // 10분
-      },
-      process.env.JWT_SECRET
-    );
-
-    return res.redirect(
-      `http://localhost:3000/?accessToken=${Buffer.from(accessToken).toString(
-        "base64"
-      )}`
-    );
+    return res.redirect("http://localhost:3001");
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.json("fail");
   }
 });
 

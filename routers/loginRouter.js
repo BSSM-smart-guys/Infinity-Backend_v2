@@ -7,7 +7,7 @@ router.get("/logout", async (req, res) => {
   try {
     if (req.session.loginData) {
       req.session.loginData = null;
-      res.json({ message: "success" });
+      return res.redirect("http://localhost:3001");
     } else {
       res.json({ message: "fail" });
     }

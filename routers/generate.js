@@ -11,7 +11,7 @@ const configuration = new Configuration({
 
 router.post("/", async (req, res) => {
   const { keywords } = req.body;
-  const question = `${keywords} 이 키워드를 활용해서 소설을 써줘. 글자 수는 200자 내로 해줘. 특수기호는 포함하지 않고 한글로만 작성해줘.`;
+  const question = `${keywords} 이 키워드를 활용해서 소설을 써줘. 글자 수는 200자 내로 해줘. 작은 따옴표는 사용하지마.`;
 
   try {
     const openai = new OpenAIApi(configuration);

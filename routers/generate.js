@@ -28,15 +28,13 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/save", jwtFilter, async (req, res) => {
+router.post("/save", async (req, res) => {
   //생성 날짜, 작성자
-  const { title, content, keywords } = req.body;
-  const token = req.headers.authorization.split(" ")[1];
-  const id = jwt.decode(token);
+  const { id, title, content, keywords } = req.body;
   let writer;
   try {
     const [author] = await db.query(
-      `SELECT UserName FROM user WHERE UserId = ${id.id}`
+      `SELECT UserName FROM user WHERE UserId = ${id}`
     );
     writer = author;
   } catch (error) {

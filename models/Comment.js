@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  const Comment = sequelize.define(
+    "Comment",
     {
       boardId: {
         type: DataTypes.INTEGER,
@@ -24,5 +24,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
-  return User;
+  return Comment;
 };

@@ -21,16 +21,12 @@ class userService {
   async login(user) {
     try {
       const userData = await User.findOne({ where: { userId: user.userId } });
+      console.log(userData);
       if (userData) {
         const result = await bcrypt.compare(user.password, userData.password);
         if (result) {
-          req.session.loginData = {
-            userId: userData.userId,
-            userName: userData.userData,
-          };
-          req.session.save();
-          console.log(req.session.loginData);
-          return 200;
+          delete userData.password;
+          return userData;
         }
       }
     } catch (err) {

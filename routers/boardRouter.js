@@ -1,14 +1,12 @@
 const express = require("express");
+const BoardService = require("../service/boardService");
 const router = express.Router();
 
+const boardService = new BoardService();
+
 router.get("/", async (req, res) => {
-  try {
-    [sql] = await db.query(`select * from Board`);
-    res.json(sql);
-  } catch (e) {
-    res.status(500);
-    console.log(e);
-  }
+  const result = await boardService.showAllBoard();
+  return res.status(200).send(result);
 });
 
 router.get("/:id", async (req, res) => {

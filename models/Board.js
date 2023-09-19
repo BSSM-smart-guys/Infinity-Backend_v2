@@ -46,18 +46,17 @@ module.exports = (sequelize, DataTypes) => {
 
       views: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        default: 0,
       },
 
       likes: {
         type: DataTypes.INTEGER,
-        allowNull: false,
         default: 0,
       },
     },
     {
       tableName: "Board",
-      timeStamps: false,
+      timestamps: false,
     }
   );
   return Board;

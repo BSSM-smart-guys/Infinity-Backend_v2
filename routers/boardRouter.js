@@ -1,14 +1,12 @@
 const express = require("express");
+const BoardService = require("../service/boardService");
 const router = express.Router();
 
+const boardService = new BoardService();
+
 router.get("/", async (req, res) => {
-  try {
-    [sql] = await db.query(`select * from Board`);
-    res.json(sql);
-  } catch (e) {
-    res.status(500);
-    console.log(e);
-  }
+  const result = await boardService.showAllBoard();
+  return res.status(200).send(result);
 });
 
 router.get("/:id", async (req, res) => {
@@ -26,15 +24,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  try {
-    let { title, content, username, keywords } = req.body;
-    query = `insert into Board(title, content, username, created, views, keywords) values ('${title}', '${content}', '${username}', now(), 0, '${keywords}')`;
-    sql = await db.query(query);
-    res.send(200);
-  } catch (e) {
-    console.log(e);
-    res.send(500);
-  }
+  if (!req.session.loginData) return res.sendStatus(404);
+  const boardDTO = req.body;
+  boardDTO.userName = req.session.loginData.userName;
+  console.log(boardDTO);
+  const result = await boardService.InsertBoard(boardDTO);
+  res.sendStatus(result);
 });
 
 router.put("/", async (req, res) => {

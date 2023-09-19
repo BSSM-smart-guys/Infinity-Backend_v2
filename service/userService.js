@@ -1,6 +1,6 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
-class userService {
+class UserService {
   async register(user) {
     try {
       if (!user.userId || !user.password || !user.userName) return 404;
@@ -35,4 +35,4 @@ class userService {
     }
   }
 }
-module.exports = userService;
+module.exports = UserService;

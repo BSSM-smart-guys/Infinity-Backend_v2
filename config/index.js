@@ -4,7 +4,7 @@ const env = process.env;
 const development = {
   username: env.DB_USER,
   password: env.DB_PASSWORD,
-  database: env.DB_DATABASE,
+  database: env.DATABASE,
   host: env.DB_HOST,
   dialect: "mysql",
 };
@@ -12,7 +12,7 @@ const development = {
 const production = {
   username: env.DB_USER,
   password: env.DB_PASSWORD,
-  database: env.DB_DATABASE,
+  database: env.DATABASE,
   host: env.DB_HOST,
   dialect: "mysql",
 };
@@ -20,7 +20,7 @@ const production = {
 const test = {
   username: env.DB_USER,
   password: env.DB_PASSWORD,
-  database: env.DB_DATABASE_TEST,
+  database: env.DATABASE_TEST,
   host: env.DB_HOST,
   dialect: "mysql",
 };

@@ -10,17 +10,10 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  try {
-    let { id } = req.params;
-    query = `SELECT * FROM Board WHERE BoardId = ${id}`;
-    viewQuery = `update Board set views = views + 1 where BoardId = ${id}`;
-    [sql] = await db.query(query);
-    db.query(viewQuery);
-    res.json(sql);
-  } catch (e) {
-    res.status(500).send("돌아가.");
-    console.log(e);
-  }
+  const { id } = req.params;
+  const result = await boardService.showOneBoard(id);
+  if (result.length === 0) return res.sendStatus(404);
+  res.status(200).send(result);
 });
 
 router.post("/", async (req, res) => {

@@ -11,15 +11,26 @@ class BoardService {
     }
   }
 
+  async showOneBoard(boardId) {
+    try {
+      const result = await Board.findAll({ where: { boardId } });
+      return result;
+    } catch (err) {
+      console.log(err);
+      return 404;
+    }
+  }
   async InsertBoard(boardInfo) {
     try {
+      const { title, novel, character, event, background, userName } =
+        boardInfo;
       const result = await Board.create({
-        title: boardInfo.title,
-        novel: boardInfo.novel,
-        character: boardInfo.character,
-        event: boardInfo.event,
-        background: boardInfo.background,
-        userName: boardInfo.userName,
+        title,
+        novel,
+        character,
+        event,
+        background,
+        userName,
         created: sequelize.literal("NOW()"),
         views: 0,
         likes: 0,

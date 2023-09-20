@@ -17,7 +17,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(404);
+  if (!req.session.loginData) return res.sendStatus(401);
   const boardDTO = req.body;
   boardDTO.userName = req.session.loginData.userName;
   console.log(boardDTO);
@@ -25,12 +25,13 @@ router.post("/", async (req, res) => {
   res.sendStatus(result);
 });
 
-router.put("/", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
-    let { title, content } = req.body;
-    query = `update Board set title = '${title}', content = '${content}'`;
-    sql = await db.query(query);
-    res.send(200);
+    if (!req.session.loginData) return res.sendStatus(401);
+    const { id } = req.params;
+    const boardDTO = req.body;
+    const result = await boardService.modifyBoard(id, boardDTO);
+    res.sendStatus(result);
   } catch (e) {
     console.log(e);
     res.send(500);

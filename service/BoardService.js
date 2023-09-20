@@ -41,6 +41,34 @@ class BoardService {
       return 500;
     }
   }
+
+  async modifyBoard(boardId, boardInfo) {
+    try {
+      const { title, novel, character, event, background } = boardInfo;
+      const [updatedCount] = await Board.update(
+        {
+          title,
+          novel,
+          character,
+          event,
+          background,
+        },
+        {
+          where: { boardId },
+        }
+      );
+
+      if (updatedCount === 1) {
+        return 200;
+      } else {
+        return 404;
+      }
+      return 200;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
 }
 
 module.exports = BoardService;

@@ -42,7 +42,7 @@ class BoardService {
     }
   }
 
-  async modifyBoard(boardId, boardInfo) {
+  async modifyBoard(boardId, userName, boardInfo) {
     try {
       const { title, novel, character, event, background } = boardInfo;
       const [updatedCount] = await Board.update(
@@ -54,15 +54,28 @@ class BoardService {
           background,
         },
         {
-          where: { boardId },
+          where: { boardId, userName },
         }
       );
 
       if (updatedCount === 1) {
         return 200;
-      } else {
-        return 404;
       }
+      return 404;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
+
+  async deleteBoard(boardId, userName) {
+    try {
+      await Board.destroy({
+        where: {
+          boardId,
+          userName,
+        },
+      });
       return 200;
     } catch (err) {
       console.log(err);

@@ -6,6 +6,7 @@ const boardService = new BoardService();
 
 router.get("/", async (req, res) => {
   const result = await boardService.showAllBoard();
+
   return res.status(200).send(result);
 });
 
@@ -13,6 +14,7 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const result = await boardService.showOneBoard(id);
   if (result.length === 0) return res.sendStatus(404);
+
   res.status(200).send(result);
 });
 
@@ -20,8 +22,8 @@ router.post("/", async (req, res) => {
   if (!req.session.loginData) return res.sendStatus(401);
   const boardDTO = req.body;
   boardDTO.userName = req.session.loginData.userName;
-  console.log(boardDTO);
   const result = await boardService.InsertBoard(boardDTO);
+
   res.sendStatus(result);
 });
 
@@ -30,7 +32,12 @@ router.put("/:id", async (req, res) => {
     if (!req.session.loginData) return res.sendStatus(401);
     const { id } = req.params;
     const boardDTO = req.body;
-    const result = await boardService.modifyBoard(id, boardDTO);
+    const result = await boardService.modifyBoard(
+      id,
+      req.session.loginData.userName,
+      boardDTO
+    );
+
     res.sendStatus(result);
   } catch (e) {
     console.log(e);
@@ -39,15 +46,11 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  try {
-    let { id } = req.params;
+  const { id } = req.params;
+  if (!req.session.loginData) return res.sendStatus(401);
+  const userName = req.session.loginData.userName;
+  const result = await boardService.deleteBoard(id, userName);
 
-    query = `delete from Board where boardId = ${id}`;
-    sql = await db.query(query);
-    res.send(200);
-  } catch (e) {
-    console.log(e);
-    res.send(500);
-  }
+  res.sendStatus(result);
 });
 module.exports = router;

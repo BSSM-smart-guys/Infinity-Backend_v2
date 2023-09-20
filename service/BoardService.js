@@ -44,24 +44,12 @@ class BoardService {
 
   async modifyBoard(boardId, userName, boardInfo) {
     try {
-      const { title, novel, character, event, background } = boardInfo;
-      const [updatedCount] = await Board.update(
-        {
-          title,
-          novel,
-          character,
-          event,
-          background,
-        },
-        {
-          where: { boardId, userName },
-        }
-      );
-
+      const [updatedCount] = await Board.update(boardInfo, {
+        where: { boardId, userName },
+      });
       if (updatedCount === 1) {
         return 200;
-      }
-      return 404;
+      } else return 404;
     } catch (err) {
       console.log(err);
       return 500;

@@ -49,7 +49,8 @@ class BoardService {
       });
       if (updatedCount === 1) {
         return 200;
-      } else return 404;
+      }
+      return 404;
     } catch (err) {
       console.log(err);
       return 500;

@@ -13,6 +13,10 @@ class BoardService {
 
   async showOneBoard(boardId) {
     try {
+      await Board.increment("views", {
+        by: 1,
+        where: { boardId },
+      });
       const result = await Board.findAll({ where: { boardId } });
       return result;
     } catch (err) {

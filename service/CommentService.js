@@ -23,6 +23,19 @@ class CommentService {
       return 500;
     }
   }
+
+  async modifyComment(commentId, userName, comments) {
+    try {
+      const [update] = await Comment.update(comments, {
+        where: { commentId, userName },
+      });
+      if (update === 1) return 200;
+      return 404;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
 }
 
 module.exports = CommentService;

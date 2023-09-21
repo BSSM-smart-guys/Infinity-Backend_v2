@@ -5,7 +5,7 @@ const router = express.Router();
 const commentService = new CommentService();
 router.get("/:id", async (req, res) => {
   try {
-    let { id } = req.params;
+    const { id } = req.params;
     const result = await commentService.showComment(id);
     return res.status(200).send(result);
   } catch (e) {
@@ -21,15 +21,15 @@ router.post("/", async (req, res) => {
   return res.sendStatus(result);
 });
 
-router.post("/insertReply", async (req, res) => {
-  try {
-    let { commentId, userName, comment } = req.body;
-    query = `insert into ReplyComment values(${commentId}, '${userName}', '${comment}', now())`;
-    sql = await db.query(query);
-    return res.send(200);
-  } catch (e) {
-    console.log(e);
-    return res.send(500);
-  }
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const commentDTO = req.body;
+  const result = await commentService.modifyComment(
+    id,
+    req.session.loginData.userName,
+    commentDTO
+  );
+  return res.sendStatus(result);
 });
+
 module.exports = router;

@@ -21,7 +21,6 @@ class UserService {
   async login(user) {
     try {
       const userData = await User.findOne({ where: { userId: user.userId } });
-      console.log(userData);
       if (userData) {
         const result = await bcrypt.compare(user.password, userData.password);
         if (result) {

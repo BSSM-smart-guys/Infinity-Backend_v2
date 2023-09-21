@@ -1,24 +1,13 @@
 const express = require("express");
+const CommentService = require("../service/CommentService");
 const router = express.Router();
 
+const commentService = new CommentService();
 router.get("/:id", async (req, res) => {
   try {
     let { id } = req.params;
-    const query = `select * from Comment where BoardId = ${id}`;
-    const [sql] = await db.query(query);
-    return res.json(sql);
-  } catch (e) {
-    console.log(e);
-    return res.status(500);
-  }
-});
-
-router.get("/reply/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const query = `select * from ReplyComment where commentId = ${id}`;
-    const [sql] = await db.query(query);
-    return res.json(sql);
+    const result = await commentService.showComment(id);
+    return res.status(200).send(result);
   } catch (e) {
     console.log(e);
     return res.status(500);
@@ -26,15 +15,10 @@ router.get("/reply/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  try {
-    let { BoardId, comment, userName } = req.body;
-    const query = `insert into Comment(BoardId, comment, userName, created ) values(${BoardId}, '${comment}', '${userName}', DATE_ADD(NOW(), INTERVAL 9 HOUR))`;
-    const sql = await db.query(query);
-    return res.status(200);
-  } catch (e) {
-    console.log(e);
-    return res.status(500);
-  }
+  const commentDTO = req.body;
+  commentDTO.userName = req.session.loginData.userName;
+  const result = await commentService.InsertComment(commentDTO);
+  return res.sendStatus(result);
 });
 
 router.post("/insertReply", async (req, res) => {

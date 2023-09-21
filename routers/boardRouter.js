@@ -28,21 +28,15 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  try {
-    if (!req.session.loginData) return res.sendStatus(401);
-    const { id } = req.params;
-    const boardDTO = req.body;
-    const result = await boardService.modifyBoard(
-      id,
-      req.session.loginData.userName,
-      boardDTO
-    );
-
-    res.sendStatus(result);
-  } catch (e) {
-    console.log(e);
-    res.send(500);
-  }
+  if (!req.session.loginData) return res.sendStatus(401);
+  const { id } = req.params;
+  const boardDTO = req.body;
+  const result = await boardService.modifyBoard(
+    id,
+    req.session.loginData.userName,
+    boardDTO
+  );
+  res.sendStatus(result);
 });
 
 router.delete("/:id", async (req, res) => {

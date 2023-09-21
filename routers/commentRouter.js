@@ -32,4 +32,10 @@ router.put("/:id", async (req, res) => {
   return res.sendStatus(result);
 });
 
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  const result = await commentService.deleteComment(id);
+  return res.sendStatus(result);
+});
+
 module.exports = router;

@@ -34,6 +34,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+app.use("/image", express.static("./public/images"));
 
 db.sequelize
   .sync()

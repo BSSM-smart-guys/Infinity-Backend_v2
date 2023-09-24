@@ -14,6 +14,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const userDTO = req.body;
   const login = await userService.login(userDTO);
+  if (!login) return res.sendStatus(401);
   req.session.loginData = {
     userId: login.userId,
     userName: login.userName,

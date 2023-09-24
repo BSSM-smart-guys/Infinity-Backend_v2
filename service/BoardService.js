@@ -48,6 +48,8 @@ class BoardService {
 
   async modifyBoard(boardId, userName, boardInfo) {
     try {
+      const info = await Board.findOne({ where: { boardId } });
+      if (info.userName !== userName) return 401;
       const [updatedCount] = await Board.update(boardInfo, {
         where: { boardId, userName },
       });
@@ -63,6 +65,8 @@ class BoardService {
 
   async deleteBoard(boardId, userName) {
     try {
+      const info = await Board.findOne({ where: { boardId } });
+      if (info.userName !== userName) return 401;
       await Board.destroy({
         where: {
           boardId,

@@ -24,7 +24,6 @@ class UserService {
       if (userData) {
         const result = await bcrypt.compare(user.password, userData.password);
         if (result) {
-          delete userData.password;
           return userData;
         }
       }

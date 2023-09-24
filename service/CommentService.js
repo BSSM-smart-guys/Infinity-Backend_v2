@@ -1,4 +1,4 @@
-const { sequelize, Comment } = require("../models");
+const { sequelize, Comment, Board } = require("../models");
 
 class CommentService {
   async showComment(boardId) {
@@ -26,6 +26,8 @@ class CommentService {
 
   async modifyComment(commentId, userName, comments) {
     try {
+      const info = await Comment.findOne({ where: { commentId } });
+      if (info.userName !== userName) return 401;
       const [update] = await Comment.update(comments, {
         where: { commentId, userName },
       });

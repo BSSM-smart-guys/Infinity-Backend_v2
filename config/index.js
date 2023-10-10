@@ -1,5 +1,6 @@
 require("dotenv").config();
 const env = process.env;
+const { Configuration, OpenAIApi } = require("openai");
 
 const development = {
   username: env.DB_USER,
@@ -25,4 +26,9 @@ const test = {
   dialect: "mysql",
 };
 
-module.exports = { development, production, test };
+const kakao = {
+  apiKey: env.KAKAO_API_KEY,
+  endpoint: env.KAKAO_API_ENDPOINT
+}
+
+module.exports = { development, production, test, kakao };

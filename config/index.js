@@ -31,4 +31,8 @@ const kakao = {
   endpoint: env.KAKAO_API_ENDPOINT
 }
 
-module.exports = { development, production, test, kakao };
+const openai = {
+  apiKey: env.OPENAI_API_KEY
+}
+
+module.exports = { development, production, test, kakao, openai };

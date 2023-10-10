@@ -1,5 +1,5 @@
 const { Board, sequelize } = require("../models");
-
+const { Op } = require("sequelize");
 class BoardService {
   async showAllBoard() {
     try {
@@ -46,6 +46,21 @@ class BoardService {
     }
   }
 
+  async searchBoard(title) {
+    try {
+      const result = await Board.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${title}%`,
+          },
+        },
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+      return 404;
+    }
+  }
   async modifyBoard(boardId, userName, boardInfo) {
     try {
       const [updatedCount] = await Board.update(boardInfo, {

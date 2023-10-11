@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
   console.log(title);
   const result = await boardService.searchBoard(title);
   if (result === 404) return res.sendStatus(404);
+
   return res.status(200).send(result);
 });
 

@@ -4,7 +4,7 @@ const {execute} = require("../service/GenerateService");
 
 router.post("/", async (req, res) => {
     const { genre, keywords, character, event, background } = req.body;
-    const result = await execute(genre, keywords, character, event, background);
+    const result = await execute({genre, keywords, character, event, background});
     res.status(200).json({result: result});
 });
 

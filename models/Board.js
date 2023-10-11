@@ -53,6 +53,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         default: 0,
       },
+
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
     },
     {
       tableName: "Board",

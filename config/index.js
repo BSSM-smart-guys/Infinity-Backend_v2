@@ -1,6 +1,5 @@
 require("dotenv").config();
 const env = process.env;
-const { Configuration, OpenAIApi } = require("openai");
 
 const development = {
   username: env.DB_USER,

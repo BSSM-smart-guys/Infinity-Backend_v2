@@ -38,4 +38,9 @@ const laas = {
   endpoint: env.LAAS_ENDPOINT
 }
 
+const naver = {
+  clientId: env.NAVER_CLIENT_ID,
+  clientSecret: env.NAVER_CLIENT_SECRET
+}
+
 module.exports = { development, production, test, kakao, laas };

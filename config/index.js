@@ -43,4 +43,4 @@ const naver = {
   url: env.NAVER_URL
 }
 
-module.exports = { development, production, test, kakao, laas };
+module.exports = { development, production, test, kakao, laas, naver };

@@ -1,14 +1,23 @@
 const {kakao} = require("../config");
 const axios = require("axios");
 const fs = require("fs");
+const { translate } = require("./papago");
 
-const generateImage = (prompt) => {
+const generateImage = async (props) => {
+    const translatedProps = await translate(props);
+    console.log(translatedProps);
+    const { genre, keywords, character, event, background } = translatedProps;
+
+    const prompt = `genre: ${genre} | keywords: ${keywords} | ` +
+        `character: ${character} | event: ${event} | background: ${background}`;
+
     const headers = {
         headers: {
             Authorization: `KakaoAK ${kakao.apiKey}`,
             "Content-Type": "application/json"
         }
     }
+
     const body = {
         prompt: prompt,
         return_type: "base64_string"

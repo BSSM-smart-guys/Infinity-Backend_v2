@@ -39,7 +39,8 @@ const laas = {
 
 const naver = {
   clientId: env.NAVER_CLIENT_ID,
-  clientSecret: env.NAVER_CLIENT_SECRET
+  clientSecret: env.NAVER_CLIENT_SECRET,
+  url: env.NAVER_URL
 }
 
 module.exports = { development, production, test, kakao, laas };

@@ -1,10 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const {execute} = require("../service/GenerateService");
+const { callLaas } = require("../service/laas");
+const { generateImage } = require("../service/karlo");
 
-router.post("/", async (req, res) => {
+router.post("/novel", async (req, res) => {
     const { genre, keywords, character, event, background } = req.body;
-    const result = await execute({genre, keywords, character, event, background});
+    const result = await callLaas(genre, keywords, character, event, background);
+    res.status(200).json({result: result});
+});
+
+router.post("/image", async (req, res) => {
+    const { genre, keywords, character, event, background } = req.body;
+    const result = await generateImage({genre, keywords, character, event, background});
     res.status(200).json({result: result});
 });
 

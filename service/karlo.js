@@ -5,7 +5,6 @@ const { translate } = require("./papago");
 
 const generateImage = async (props) => {
     const translatedProps = await translate(props);
-    console.log(translatedProps);
     const { genre, keywords, character, event, background } = translatedProps;
 
     const prompt = `genre: ${genre} | keywords: ${keywords} | ` +
@@ -26,10 +25,11 @@ const generateImage = async (props) => {
     return axios.post(kakao.endpoint + "/t2i", body, headers)
         .then((res) => {
             const {id, seed, image, nsfw_content_detected, nsfw_score} = res.data.images[0];
-            fs.writeFile("public/images/" + id + ".png", Buffer.from(image, "base64"), (err) => {
+            if (!fs.existsSync("public/images/temp")) fs.mkdirSync("public/images/temp");
+            fs.writeFile("public/images/temp/" + id + ".png", Buffer.from(image, "base64"), (err) => {
                 if (err) return err
             });
-            return "success";
+            return id + ".png";
         })
         .catch((err) => {
             return err;

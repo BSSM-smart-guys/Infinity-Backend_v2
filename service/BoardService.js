@@ -1,4 +1,5 @@
 const { Board, sequelize } = require("../models");
+const fs = require("fs");
 
 class BoardService {
   async showAllBoard() {
@@ -26,8 +27,12 @@ class BoardService {
   }
   async InsertBoard(boardInfo) {
     try {
-      const { title, novel, character, event, background, userName } =
+      const { title, novel, character, event, background, userName, image } =
         boardInfo;
+      const tempImage = fs.readFileSync("public/images/temp/" + image);
+      fs.rmdirSync("public/images/temp/", { recursive: true, force: true });
+      if (!fs.existsSync("public/images/release")) fs.mkdirSync("public/images/release");
+      fs.writeFileSync("public/images/release/" + image, tempImage);
       const result = await Board.create({
         title,
         novel,
@@ -35,6 +40,7 @@ class BoardService {
         event,
         background,
         userName,
+        image,
         created: sequelize.literal("NOW()"),
         views: 0,
         likes: 0,

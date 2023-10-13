@@ -36,6 +36,7 @@ router.put("/:id", async (req, res) => {
     req.session.loginData.userName,
     boardDTO
   );
+
   res.sendStatus(result);
 });
 

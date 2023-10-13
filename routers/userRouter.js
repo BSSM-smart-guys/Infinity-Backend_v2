@@ -19,11 +19,13 @@ router.post("/login", async (req, res) => {
     userName: login.userName,
   };
   req.session.save();
+
   res.status(200).send(req.session.loginData);
 });
 
 router.get("/logincheck", async (req, res) => {
   if (!req.session.loginData) return res.status(404).send({ login: false });
+
   return res
     .status(200)
     .send({ login: true, loginData: req.session.loginData });

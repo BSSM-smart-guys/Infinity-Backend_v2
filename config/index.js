@@ -25,4 +25,22 @@ const test = {
   dialect: "mysql",
 };
 
-module.exports = { development, production, test };
+const kakao = {
+  apiKey: env.KAKAO_API_KEY,
+  endpoint: env.KAKAO_API_ENDPOINT
+}
+
+const laas = {
+  projectCode: env.LAAS_PROJECT_CODE,
+  apiKey: env.LAAS_PROJECT_API_KEY,
+  hash: env.LAAS_PRESET_HASH,
+  endpoint: env.LAAS_ENDPOINT
+}
+
+const naver = {
+  clientId: env.NAVER_CLIENT_ID,
+  clientSecret: env.NAVER_CLIENT_SECRET,
+  url: env.NAVER_URL
+}
+
+module.exports = { development, production, test, kakao, laas, naver };

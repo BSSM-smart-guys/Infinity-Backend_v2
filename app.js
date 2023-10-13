@@ -34,15 +34,16 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api", router);
-app.use("/image", express.static("./public/images"));
-app.use((err, req, res, next) => {
+app.use("/", (err, req, res, next) => {
   var e = err;
   console.error(err.stack);
   res
     .status(err.status ?? 500)
     .json({ message: err.message ?? "Internal Server Error" });
 });
+app.use("/api", router);
+app.use("/image", express.static("./public/images"));
+
 db.sequelize
   .sync()
   .then(() => {

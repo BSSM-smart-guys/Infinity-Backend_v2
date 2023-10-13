@@ -1,10 +1,12 @@
 const express = require("express");
-const router = express.Router();
+const asyncify = require("express-asyncify").default;
+const router = asyncify(express.Router());
 const comment = require("./commentRouter");
 const board = require("./boardRouter");
 const user = require("./userRouter");
 const generateRouter = require("./GenerateRouter");
 const search = require("./searchRouter");
+
 // const authRouter = require("./auth");
 // const generateRouter = require("./generate");
 

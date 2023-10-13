@@ -1,7 +1,8 @@
 require("dotenv").config();
 const express = require("express");
+const asyncify = require("express-asyncify").default;
 const cors = require("cors");
-const app = express();
+const app = asyncify(express());
 const router = require("./routers");
 const db = require("./models");
 const port = 3000;
@@ -35,7 +36,13 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
 app.use("/image", express.static("./public/images"));
-
+app.use((err, req, res, next) => {
+  var e = err;
+  console.error(err.stack);
+  res
+    .status(err.status ?? 500)
+    .json({ message: err.message ?? "Internal Server Error" });
+});
 db.sequelize
   .sync()
   .then(() => {

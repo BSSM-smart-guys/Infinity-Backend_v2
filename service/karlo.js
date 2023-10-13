@@ -29,7 +29,10 @@ const generateImage = async (props) => {
             fs.writeFile("public/images/temp/" + id + ".png", Buffer.from(image, "base64"), (err) => {
                 if (err) return err
             });
-            return id + ".png";
+            return {
+                fileName: `${id}.png`,
+                fileLocation: `/image/temp/${id}.png`
+            }
         })
         .catch((err) => {
             return err;

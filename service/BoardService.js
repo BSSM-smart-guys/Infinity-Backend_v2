@@ -33,6 +33,7 @@ class BoardService {
       fs.rmdirSync("public/images/temp/", { recursive: true, force: true });
       if (!fs.existsSync("public/images/release")) fs.mkdirSync("public/images/release");
       fs.writeFileSync("public/images/release/" + image, tempImage);
+      const imageLocation = "/image/release/" + image;
       const result = await Board.create({
         title,
         novel,
@@ -40,7 +41,7 @@ class BoardService {
         event,
         background,
         userName,
-        image,
+        image: imageLocation,
         created: sequelize.literal("NOW()"),
         views: 0,
         likes: 0,

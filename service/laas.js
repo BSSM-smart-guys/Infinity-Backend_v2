@@ -1,7 +1,10 @@
 const { laas} = require("../config");
 const axios = require("axios");
 
-const callLaas = (genre, keywords, character, event, background) => {
+const callLaas = (dto) => {
+    let params = {};
+    Object.entries(dto).forEach(([key, value]) => params[key] = value.toString());
+
     const headers = {
         headers: {
             project: laas.projectCode,
@@ -12,13 +15,7 @@ const callLaas = (genre, keywords, character, event, background) => {
 
     const body = {
         hash: laas.hash,
-        params: {
-            genre: genre.toString(),
-            keywords: keywords.toString(),
-            character: character.toString(),
-            event: event.toString(),
-            background: background.toString()
-        }
+        params
     }
 
     return axios.post(laas.endpoint, body, headers)

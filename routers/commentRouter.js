@@ -4,20 +4,17 @@ const router = express.Router();
 
 const commentService = new CommentService();
 router.get("/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await commentService.showComment(id);
-    return res.status(200).send(result);
-  } catch (e) {
-    console.log(e);
-    return res.status(500);
-  }
+  const { id } = req.params;
+  const result = await commentService.showComment(id);
+
+  return res.status(200).send(result);
 });
 
 router.post("/", async (req, res) => {
   const commentDTO = req.body;
   commentDTO.userName = req.session.loginData.userName;
   const result = await commentService.InsertComment(commentDTO);
+
   return res.sendStatus(result);
 });
 
@@ -29,12 +26,14 @@ router.put("/:id", async (req, res) => {
     req.session.loginData.userName,
     commentDTO
   );
+
   return res.sendStatus(result);
 });
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
   const result = await commentService.deleteComment(id);
+
   return res.sendStatus(result);
 });
 

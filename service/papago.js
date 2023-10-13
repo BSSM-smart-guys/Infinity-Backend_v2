@@ -1,13 +1,12 @@
 const { naver } = require("../config")
 const axios = require("axios");
 
-const translate = async (contents) => {
-    contents.genre = await callPapago(contents.genre.toString());
-    contents.keywords = await callPapago(contents.keywords.toString());
-    contents.character = await callPapago(contents.character.toString());
-    contents.event = await callPapago(contents.event.toString());
-    contents.background = await callPapago(contents.background.toString());
-    return contents;
+const translate = async (keywords) => {
+    let translated = {};
+    for (let [k, v] of Object.entries(keywords)) {
+        translated[k] = await callPapago(v.toString());
+    }
+    return translated;
 }
 
 const callPapago = (contents) => {

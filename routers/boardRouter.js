@@ -21,9 +21,18 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   if (!req.session.loginData) return res.sendStatus(401);
+
   const boardDTO = req.body;
   boardDTO.userName = req.session.loginData.userName;
+  if (req.session.tempImageData) boardDTO.tempImageData = req.session.tempImageData;
+
   const result = await boardService.InsertBoard(boardDTO);
+
+  const userName = req.session.loginData.userName;
+  let userTempData = req.session.tempImageData.find(v => v.userName === userName);
+  userTempData.data = [];
+
+  req.session.save();
 
   res.sendStatus(result);
 });

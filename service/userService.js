@@ -2,13 +2,16 @@ const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 class UserService {
   async register(user) {
-    if (!user.userId || !user.password || !user.userName) return 404;
-    const hash = await bcrypt.hash(user.password, 10);
+    let { userId, password, userName } = user;
+    if (!userId || !password || !userName) return 404;
+    const IdCheck = await User.findOne({ where: { userId } });
+    if (IdCheck) return 409;
+    const hash = await bcrypt.hash(password, 10);
     user.password = hash;
-    const register = await User.create({
-      userId: user.userId,
-      password: user.password,
-      userName: user.userName,
+    await User.create({
+      userId,
+      password,
+      userName,
     });
     return 200;
   }

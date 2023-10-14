@@ -34,6 +34,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
       userName: {
         type: DataTypes.STRING(50),
         allowNull: false,
@@ -56,8 +60,8 @@ module.exports = (sequelize, DataTypes) => {
 
       image: {
         type: DataTypes.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       tableName: "Board",

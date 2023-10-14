@@ -20,16 +20,18 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
+  const { loginData, tempImageData } = req.session;
+  if (!loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
-  boardDTO.userName = req.session.loginData.userName;
-  if (req.session.tempImageData) boardDTO.tempImageData = req.session.tempImageData;
+  boardDTO.userId = loginData.userId;
+  boardDTO.userName = loginData.userName;
+  if (tempImageData) boardDTO.tempImageData = tempImageData;
 
   const result = await boardService.InsertBoard(boardDTO);
 
-  const userName = req.session.loginData.userName;
-  let userTempData = req.session.tempImageData.find(v => v.userName === userName);
+  const userName = loginData.userName;
+  let userTempData = tempImageData.find((v) => v.userName === userName);
   userTempData.data = [];
 
   req.session.save();
@@ -51,10 +53,11 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
+  const { loginData } = req.session;
   const { id } = req.params;
-  if (!req.session.loginData) return res.sendStatus(401);
-  const userName = req.session.loginData.userName;
-  const result = await boardService.deleteBoard(id, userName);
+  if (!loginData) return res.sendStatus(401);
+  const userId = loginData.userId;
+  const result = await boardService.deleteBoard(id, userId);
 
   res.sendStatus(result);
 });

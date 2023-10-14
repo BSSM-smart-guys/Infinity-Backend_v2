@@ -26,10 +26,9 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/logincheck", async (req, res) => {
-  if (!req.session.loginData) return res.status(404).send({ login: false });
+  const { loginData } = req.session;
+  if (!loginData) return res.status(404).send({ login: false });
 
-  return res
-    .status(200)
-    .send({ login: true, loginData: req.session.loginData });
+  return res.status(200).send({ login: true, loginData });
 });
 module.exports = router;

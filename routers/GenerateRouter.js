@@ -10,15 +10,16 @@ router.post("/novel", async (req, res) => {
 });
 
 router.post("/image", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
-  if (!req.session.tempImageData) req.session.tempImageData = [];
+  let { loginData, tempImageData } = req.session;
+  if (!loginData) return res.sendStatus(401);
+  if (!tempImageData) req.session.tempImageData = [];
 
-  const userName = req.session.loginData.userName;
-  let userTempData = req.session.tempImageData.find(v => v.userName === userName);
+  const userName = loginData.userName;
+  let userTempData = tempImageData.find(v => v.userName === userName);
 
   if (!userTempData) {
     userTempData = { userName: userName, data: [] };
-    req.session.tempImageData.push(userTempData);
+    tempImageData.push(userTempData);
   }
 
   const result = await generateImage(req.body);
@@ -26,7 +27,7 @@ router.post("/image", async (req, res) => {
   userTempData.data.push(result.fileName);
 
   req.session.save();
-  console.log(req.session.tempImageData);
+
   res.status(200).json({ result: result });
 });
 

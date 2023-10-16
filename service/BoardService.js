@@ -16,16 +16,15 @@ class BoardService {
     return result;
   }
   async InsertBoard(boardInfo) {
-    const { title, novel, character, event, background, userName, image } =
+    const { title, novel, character, event, background, userName, image, tempImage } =
       boardInfo;
     const saveImage = fs.readFileSync("public/images/temp/" + image);
-    let userTempData = boardInfo.tempImageData.find(v => v.userName === userName);
-    console.log(userTempData);
-    userTempData.data.map(v => fs.unlinkSync(`public/images/temp/${v}`));
+    tempImage.map(v => fs.unlinkSync(`public/images/temp/${v}`));
     if (!fs.existsSync("public/images/release"))
       fs.mkdirSync("public/images/release");
     fs.writeFileSync("public/images/release/" + image, saveImage);
     const imageLocation = "/image/release/" + image;
+    console.log({title, novel, character, event, background, userName, image, tempImage});
     const result = await Board.create({
       title,
       novel,

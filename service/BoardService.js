@@ -16,28 +16,41 @@ class BoardService {
     return result;
   }
   async InsertBoard(boardInfo) {
-    const { title, novel, character, event, background, userName, image, tempImage } =
-      boardInfo;
-    const saveImage = fs.readFileSync("public/images/temp/" + image);
-    tempImage.map(v => fs.unlinkSync(`public/images/temp/${v}`));
-    if (!fs.existsSync("public/images/release"))
-      fs.mkdirSync("public/images/release");
-    fs.writeFileSync("public/images/release/" + image, saveImage);
-    const imageLocation = "/image/release/" + image;
-    console.log({title, novel, character, event, background, userName, image, tempImage});
-    const result = await Board.create({
+    const {
       title,
       novel,
       character,
       event,
       background,
-      userId,
+      userUniqueId,
       userName,
-      image: imageLocation,
-      created: sequelize.literal("NOW()"),
-      views: 0,
-      likes: 0,
-    });
+      image,
+      tempImage,
+    } = boardInfo;
+    const saveImage = fs.readFileSync("public/images/temp/" + image);
+    await tempImage.map((v) => fs.unlinkSync(`public/images/temp/${v}`));
+    if (!fs.existsSync("public/images/release"))
+      fs.mkdirSync("public/images/release");
+    fs.writeFileSync("public/images/release/" + image, saveImage);
+    const imageLocation = "/image/release/" + image;
+    try {
+      await Board.create({
+        title,
+        novel,
+        character,
+        event,
+        background,
+        userUniqueId,
+        userName,
+        image: imageLocation,
+        created: sequelize.literal("NOW()"),
+        views: 0,
+        likes: 0,
+      });
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
     return 200;
   }
 

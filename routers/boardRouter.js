@@ -20,10 +20,11 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (req.session.loginData) return res.sendStatus(401);
+  if (!req.session.loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
-  boardDTO.userName = loginData.userName;
+  boardDTO.userUniqueId = req.session.loginData.userUniqueId;
+  boardDTO.userName = req.session.loginData.userName;
 
   const result = await boardService.InsertBoard(boardDTO);
 

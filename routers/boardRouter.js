@@ -20,21 +20,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { loginData, tempImageData } = req.session;
-  if (!loginData) return res.sendStatus(401);
+  if (req.session.loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
-  boardDTO.userId = loginData.userId;
   boardDTO.userName = loginData.userName;
-  if (tempImageData) boardDTO.tempImageData = tempImageData;
 
   const result = await boardService.InsertBoard(boardDTO);
-
-  const userName = loginData.userName;
-  let userTempData = tempImageData.find((v) => v.userName === userName);
-  userTempData.data = [];
-
-  req.session.save();
 
   res.sendStatus(result);
 });

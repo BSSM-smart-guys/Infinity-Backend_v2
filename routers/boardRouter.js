@@ -20,10 +20,10 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
+  if (req.session.loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
-  boardDTO.userName = req.session.loginData.userName;
+  boardDTO.userName = loginData.userName;
 
   const result = await boardService.InsertBoard(boardDTO);
 
@@ -44,10 +44,11 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
+  const { loginData } = req.session;
   const { id } = req.params;
-  if (!req.session.loginData) return res.sendStatus(401);
-  const userName = req.session.loginData.userName;
-  const result = await boardService.deleteBoard(id, userName);
+  if (!loginData) return res.sendStatus(401);
+  const userId = loginData.userId;
+  const result = await boardService.deleteBoard(id, userId);
 
   res.sendStatus(result);
 });

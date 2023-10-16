@@ -31,6 +31,7 @@ class BoardService {
       character,
       event,
       background,
+      userId,
       userName,
       image: imageLocation,
       created: sequelize.literal("NOW()"),

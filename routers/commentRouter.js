@@ -7,12 +7,14 @@ router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const result = await commentService.showComment(id);
 
-  return res.status(200).send(result);
+  return res.status(200).json(result);
 });
 
 router.post("/", async (req, res) => {
   const commentDTO = req.body;
-  commentDTO.userName = req.session.loginData.userName;
+  const { userUniqueId, userName } = req.session.loginData;
+  commentDTO.userUniqueId = userUniqueId;
+  commentDTO.userName = userName;
   const result = await commentService.InsertComment(commentDTO);
 
   return res.sendStatus(result);
@@ -20,10 +22,11 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
+  const { userUniqueId, userName } = req.session.loginData;
   const commentDTO = req.body;
   const result = await commentService.modifyComment(
     id,
-    req.session.loginData.userName,
+    userUniqueId,
     commentDTO
   );
 

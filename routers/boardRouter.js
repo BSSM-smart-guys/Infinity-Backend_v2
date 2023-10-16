@@ -8,7 +8,7 @@ const boardService = new BoardService();
 router.get("/", async (req, res) => {
   const result = await boardService.showAllBoard();
 
-  return res.status(200).send(result);
+  return res.status(200).json(result);
 });
 
 router.get("/:id", async (req, res) => {
@@ -16,7 +16,7 @@ router.get("/:id", async (req, res) => {
   const result = await boardService.showOneBoard(id);
   if (result.length === 0) return res.sendStatus(404);
 
-  res.status(200).send(result);
+  res.status(200).json(result);
 });
 
 router.post("/", async (req, res) => {

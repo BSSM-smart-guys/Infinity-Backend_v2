@@ -7,7 +7,7 @@ const { generateImage } = require("../service/karlo");
 router.post("/novel", async (req, res) => {
   if (!req.session.loginData) return res.sendStatus(401);
   const result = await callLaas(req.body);
-  res.status(200).json({ result: result });
+  res.status(200).json({ result });
 });
 
 router.post("/image", async (req, res) => {
@@ -16,7 +16,7 @@ router.post("/image", async (req, res) => {
 
   const result = await generateImage(req.body);
 
-  res.status(200).json({ result: result });
+  res.status(200).json({ result });
 });
 
 module.exports = router;

@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
   const result = await boardService.searchBoard(title);
   if (result === 404) return res.sendStatus(404);
 
-  return res.status(200).send(result);
+  return res.status(200).json(result);
 });
 
 module.exports = router;

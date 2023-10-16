@@ -8,15 +8,14 @@ class CommentService {
 
   async InsertComment(comment) {
     comment.created = sequelize.literal("NOW()");
-    console.log(comment);
     await Comment.create(comment);
 
     return 200;
   }
 
-  async modifyComment(commentId, userName, comments) {
+  async modifyComment(commentId, userUniqueId, comments) {
     const [update] = await Comment.update(comments, {
-      where: { commentId, userName },
+      where: { commentId, userUniqueId },
     });
     if (update === 1) return 200;
     return 404;

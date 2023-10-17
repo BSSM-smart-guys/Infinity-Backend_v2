@@ -22,7 +22,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { userUniqueId, userName } = req.session.loginData;
+  const { userUniqueId } = req.session.loginData;
   const commentDTO = req.body;
   const result = await commentService.modifyComment(
     id,

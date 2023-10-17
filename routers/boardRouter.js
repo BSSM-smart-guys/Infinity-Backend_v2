@@ -20,24 +20,25 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
+  const { loginData } = req.session;
+  if (!loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
-  boardDTO.userUniqueId = req.session.loginData.userUniqueId;
-  boardDTO.userName = req.session.loginData.userName;
+  boardDTO.userUniqueId = loginData.userUniqueId;
+  boardDTO.userName = loginData.userName;
 
   const result = await boardService.InsertBoard(boardDTO);
-
   res.sendStatus(result);
 });
 
 router.put("/:id", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
+  const { loginData } = req.session;
+  if (!loginData) return res.sendStatus(401);
   const { id } = req.params;
   const boardDTO = req.body;
   const result = await boardService.modifyBoard(
     id,
-    req.session.loginData.userName,
+    loginData.userName,
     boardDTO
   );
 

@@ -3,7 +3,9 @@ const fs = require("fs");
 const { Op } = require("sequelize");
 class BoardService {
   async showAllBoard() {
-    const result = await Board.findAll();
+    const result = await Board.findAll({
+      order: [["created", "DESC"]],
+    });
     return result;
   }
 

@@ -1,4 +1,4 @@
-const { Board, sequelize } = require("../models");
+const { Board, sequelize, Sequelize, Likes } = require("../models");
 const fs = require("fs");
 const { Op } = require("sequelize");
 class BoardService {
@@ -17,6 +17,65 @@ class BoardService {
       return result;
     } catch (err) {
       console.log(err);
+      return 500;
+    }
+  }
+
+  async popularBoard() {
+    try {
+      const result = await Board.findAll({
+        order: [["likes", "DESC"]],
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
+
+  async dateBoard() {
+    try {
+      const result = await Board.findAll({
+        order: [["created"]],
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
+
+  async likeBoard(userUniqueId, boardId) {
+    try {
+      const likeCheck = await Likes.findAll({
+        where: { boardId, userUniqueId },
+      });
+      console.log(likeCheck[0]?.dataValues);
+      if (likeCheck.length === 0) {
+        console.log("플러스 작업");
+        await Board.increment("likes", {
+          by: 1,
+          where: { boardId },
+        });
+        await Likes.create({
+          boardId,
+          userUniqueId,
+        });
+        return 200;
+      }
+
+      console.log("마이너스작업");
+      await Board.update(
+        {
+          likes: sequelize.literal("likes - 1"),
+        },
+        { where: { boardId } }
+      );
+      await Likes.destroy({
+        where: { userUniqueId, boardId },
+      });
+      return 200;
+    } catch (err) {
       console.log(err);
       return 500;
     }

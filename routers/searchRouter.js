@@ -1,5 +1,5 @@
 const express = require("express");
-const BoardService = require("../service/boardService");
+const BoardService = require("../service/BoardService");
 const asyncify = require("express-asyncify").default;
 const router = asyncify(express.Router());
 

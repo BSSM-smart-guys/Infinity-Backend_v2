@@ -6,12 +6,17 @@ const router = asyncify(express.Router());
 const boardService = new BoardService();
 
 router.get("/", async (req, res) => {
-  const { title } = req.body;
-  console.log(title);
-  const result = await boardService.searchBoard(title);
-  if (result === 404) return res.sendStatus(404);
+  try {
+    const { title } = req.body;
+    console.log(title);
+    const result = await boardService.searchBoard(title);
+    if (result === 404) return res.sendStatus(404);
 
-  return res.status(200).json(result);
+    return res.status(200).json(result);
+  } catch (err) {
+    console.log(err);
+    return 500;
+  }
 });
 
 module.exports = router;

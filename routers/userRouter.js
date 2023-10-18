@@ -15,11 +15,12 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const userDTO = req.body;
   const login = await userService.login(userDTO);
+  const { userUniqueId, userId, userName } = login;
   if (!login) return res.sendStatus(401);
   req.session.loginData = {
-    userUniqueId: login.userUniqueId,
-    userId: login.userId,
-    userName: login.userName,
+    userUniqueId,
+    userId,
+    userName,
   };
   req.session.save();
 

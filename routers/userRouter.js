@@ -33,4 +33,9 @@ router.get("/logincheck", async (req, res) => {
 
   return res.status(200).send({ login: true, loginData });
 });
+
+router.get("/logout", async (req, res) => {
+  req.session.destroy();
+  return res.sendStatus(200);
+});
 module.exports = router;

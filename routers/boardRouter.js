@@ -28,6 +28,14 @@ router.get("/method/date", async (req, res) => {
   return res.json(result);
 });
 
+router.get("/like/:id", async (req, res) => {
+  const { loginData } = req.session;
+  if (!loginData) return res.sendStatus(401);
+  const { id } = req.params;
+  const result = await boardService.likeBoard(loginData.userUniqueId, id);
+  return res.sendStatus(result);
+});
+
 router.post("/", async (req, res) => {
   const { loginData } = req.session;
   if (!loginData) return res.sendStatus(401);

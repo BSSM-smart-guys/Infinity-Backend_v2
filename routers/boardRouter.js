@@ -1,5 +1,5 @@
 const express = require("express");
-const BoardService = require("../service/boardService");
+const BoardService = require("../service/BoardService");
 const asyncify = require("express-asyncify").default;
 const router = asyncify(express.Router());
 
@@ -17,6 +17,15 @@ router.get("/:id", async (req, res) => {
   if (result.length === 0) return res.sendStatus(404);
 
   res.status(200).json(result);
+});
+router.get("/method/popular", async (req, res) => {
+  const result = await boardService.popularBoard();
+  return res.json(result);
+});
+
+router.get("/method/date", async (req, res) => {
+  const result = await boardService.dateBoard();
+  return res.json(result);
 });
 
 router.post("/", async (req, res) => {

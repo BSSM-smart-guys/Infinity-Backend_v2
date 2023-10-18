@@ -1,4 +1,4 @@
-const { Board, sequelize } = require("../models");
+const { Board, sequelize, Sequelize } = require("../models");
 const fs = require("fs");
 const { Op } = require("sequelize");
 class BoardService {
@@ -17,10 +17,34 @@ class BoardService {
       return result;
     } catch (err) {
       console.log(err);
+      return 500;
+    }
+  }
+
+  async popularBoard() {
+    try {
+      const result = await Board.findAll({
+        order: [["views", "DESC"]],
+      });
+      return result;
+    } catch (err) {
       console.log(err);
       return 500;
     }
   }
+
+  async dateBoard() {
+    try {
+      const result = await Board.findAll({
+        order: [["created"]],
+      });
+      return result;
+    } catch (err) {
+      console.log(err);
+      return 500;
+    }
+  }
+
   async InsertBoard(boardInfo) {
     const {
       title,

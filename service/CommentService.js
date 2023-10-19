@@ -21,9 +21,9 @@ class CommentService {
     return 404;
   }
 
-  async deleteComment(commentId) {
+  async deleteComment(commentId, userUniqueId) {
     await Comment.destroy({
-      where: { commentId },
+      where: { commentId, userUniqueId },
     });
     return 200;
   }

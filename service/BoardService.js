@@ -54,7 +54,6 @@ class BoardService {
       });
       console.log(likeCheck[0]?.dataValues);
       if (likeCheck.length === 0) {
-        console.log("플러스 작업");
         await Board.increment("likes", {
           by: 1,
           where: { boardId },
@@ -65,8 +64,6 @@ class BoardService {
         });
         return 200;
       }
-
-      console.log("마이너스작업");
       await Board.update(
         {
           likes: sequelize.literal("likes - 1"),
@@ -91,6 +88,7 @@ class BoardService {
       background,
       userUniqueId,
       userName,
+      userProfileImage,
       image,
       tempImage,
     } = boardInfo;
@@ -109,6 +107,7 @@ class BoardService {
         background,
         userUniqueId,
         userName,
+        userProfileImage,
         image: imageLocation,
         created: sequelize.literal("NOW()"),
         views: 0,
@@ -141,11 +140,11 @@ class BoardService {
     }
   }
 
-  async deleteBoard(boardId, userName) {
+  async deleteBoard(boardId, userUniqueId) {
     await Board.destroy({
       where: {
         boardId,
-        userName,
+        userUniqueId,
       },
     });
     return 200;

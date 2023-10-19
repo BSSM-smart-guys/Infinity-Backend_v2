@@ -15,6 +15,11 @@ router.post("/register", async (req, res) => {
   res.sendStatus(User);
 });
 
+const options = {
+  expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  sameSite: "None",
+};
+
 router.post("/login", async (req, res) => {
   const userDTO = req.body;
   const login = await userService.login(userDTO);
@@ -26,16 +31,20 @@ router.post("/login", async (req, res) => {
     userName,
     userProfileImage,
   };
+
   req.session.save();
 
-  res.status(200).json(req.session.loginData);
+  res
+    .status(200)
+    .cookie("ssibal", req.session.loginData, options)
+    .json(req.session.loginData);
 });
 
 router.get("/logincheck", async (req, res) => {
   const { loginData } = req.session;
-  if (!loginData) return res.status(404).send({ login: false });
+  if (!loginData) return res.status(200).json({ login: false });
 
-  return res.status(200).send({ login: true, loginData });
+  return res.status(200).json({ login: true, loginData });
 });
 
 router.get("/logout", async (req, res) => {

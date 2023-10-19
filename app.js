@@ -19,7 +19,6 @@ app.use(
     secret: "secret",
     proxy: true,
     cookie: {
-      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 5,
       domain: "*",
       store: new MemoryStore({

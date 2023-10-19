@@ -28,7 +28,7 @@ app.use(
 app.use(
   cors({
     origin: "*",
-    credentials: true,
+    credentials: "*",
   })
 );
 app.use(express.json());

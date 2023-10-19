@@ -12,9 +12,10 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const commentDTO = req.body;
-  const { userUniqueId, userName } = req.session.loginData;
+  const { userUniqueId, userName, userProfileImage } = req.session.loginData;
   commentDTO.userUniqueId = userUniqueId;
   commentDTO.userName = userName;
+  commentDTO.userProfileImage = userProfileImage;
   const result = await commentService.InsertComment(commentDTO);
 
   return res.sendStatus(result);

@@ -43,6 +43,7 @@ router.post("/", async (req, res) => {
   const boardDTO = req.body;
   boardDTO.userUniqueId = loginData.userUniqueId;
   boardDTO.userName = loginData.userName;
+  boardDTO.userProfileImage = loginData.userProfileImage;
 
   const result = await boardService.InsertBoard(boardDTO);
   res.sendStatus(result);
@@ -63,12 +64,17 @@ router.put("/:id", async (req, res) => {
 });
 
 router.delete("/:id", async (req, res) => {
-  const { loginData } = req.session;
-  const { id } = req.params;
-  if (!loginData) return res.sendStatus(401);
-  const userId = loginData.userId;
-  const result = await boardService.deleteBoard(id, userId);
+  try {
+    const { loginData } = req.session;
+    const { id } = req.params;
+    if (!loginData) return res.sendStatus(401);
+    const userUniqueId = loginData.userUniqueId;
+    const result = await boardService.deleteBoard(id, userUniqueId);
 
-  res.sendStatus(result);
+    res.sendStatus(result);
+  } catch (err) {
+    console.log(err);
+    return 500;
+  }
 });
 module.exports = router;

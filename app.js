@@ -28,13 +28,16 @@ app.use(
 app.use(
   cors({
     origin: "*",
-    credentials: "*",
+    credentials: true,
   })
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", (err, req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // 모든 도메인에서의 요청 허용
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   var e = err;
   console.error(err.stack);
   res

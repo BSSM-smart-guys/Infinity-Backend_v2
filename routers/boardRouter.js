@@ -33,12 +33,12 @@ router.get("/like/:id", async (req, res) => {
   if (!loginData) return res.sendStatus(401);
   const { id } = req.params;
   const result = await boardService.likeBoard(loginData.userUniqueId, id);
-  return res.sendStatus(result);
+  return res.sendStatus(200);
 });
 
 router.post("/", async (req, res) => {
   const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
+  if (!loginData) return res.status(401).send(loginData);
 
   const boardDTO = req.body;
   boardDTO.userUniqueId = loginData.userUniqueId;

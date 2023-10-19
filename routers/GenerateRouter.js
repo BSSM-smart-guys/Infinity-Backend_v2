@@ -5,7 +5,7 @@ const { callLaas } = require("../service/laas");
 const { generateImage } = require("../service/karlo");
 
 router.post("/novel", async (req, res) => {
-  if (!req.session.loginData) return res.sendStatus(401);
+  if (!req.session.loginData) return res.sendStatus(402);
   const result = await callLaas(req.body);
   res.status(200).json({ result });
 });

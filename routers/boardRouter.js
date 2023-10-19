@@ -38,6 +38,7 @@ router.get("/like/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const { loginData } = req.session;
+  if (!loginData) return res.sendStatus(401);
 
   const boardDTO = req.body;
   boardDTO.userUniqueId = loginData.userUniqueId;

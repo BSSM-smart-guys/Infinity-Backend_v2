@@ -2,7 +2,7 @@ const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 class UserService {
   async register(user) {
-    let { userId, password, userName } = user;
+    let { userId, password, userName, userProfileImage } = user;
     if (!userId || !password || !userName) return 404;
     const IdCheck = await User.findOne({ where: { userId } });
     if (IdCheck) return 409;
@@ -12,6 +12,7 @@ class UserService {
       userId,
       password,
       userName,
+      userProfileImage,
     });
     return 200;
   }

@@ -7,6 +7,8 @@ const userService = new UserService();
 
 router.post("/register", async (req, res) => {
   const userDTO = req.body;
+  const random = Math.floor(Math.random() * 12) + 1;
+  userDTO.userProfileImage = random;
   const User = await userService.register(userDTO);
 
   res.sendStatus(User);
@@ -21,6 +23,7 @@ router.post("/login", async (req, res) => {
     userUniqueId,
     userId,
     userName,
+    userProfileImage,
   };
   req.session.save();
 
@@ -38,4 +41,5 @@ router.get("/logout", async (req, res) => {
   req.session.destroy();
   return res.sendStatus(200);
 });
+
 module.exports = router;

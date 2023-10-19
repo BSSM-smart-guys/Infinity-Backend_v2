@@ -1,7 +1,8 @@
-const { User } = require("../models");
+const { User, Comment } = require("../models");
 const bcrypt = require("bcryptjs");
 class UserService {
   async register(user) {
+    console.log(user);
     let { userId, password, userName, userProfileImage } = user;
     if (!userId || !password || !userName) return 404;
     const IdCheck = await User.findOne({ where: { userId } });

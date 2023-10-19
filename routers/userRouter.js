@@ -17,7 +17,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   const userDTO = req.body;
   const login = await userService.login(userDTO);
-  const { userUniqueId, userId, userName } = login;
+  const { userUniqueId, userId, userName, userProfileImage } = login;
   if (!login) return res.sendStatus(401);
   req.session.loginData = {
     userUniqueId,
@@ -27,7 +27,7 @@ router.post("/login", async (req, res) => {
   };
   req.session.save();
 
-  res.status(200).send(req.session.loginData);
+  res.status(200).json(req.session.loginData);
 });
 
 router.get("/logincheck", async (req, res) => {

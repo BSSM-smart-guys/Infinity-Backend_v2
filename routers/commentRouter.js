@@ -36,7 +36,10 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const result = await commentService.deleteComment(id);
+  const result = await commentService.deleteComment(
+    id,
+    req.session.loginData.userUniqueId
+  );
 
   return res.sendStatus(result);
 });

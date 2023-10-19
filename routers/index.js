@@ -11,7 +11,7 @@ const search = require("./searchRouter");
 // const generateRouter = require("./generate");
 
 router.use("/board", board);
-router.use("/user", user);
+//router.use("/user", user);
 router.use("/comment", comment);
 router.use("/generate", generateRouter);
 

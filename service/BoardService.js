@@ -26,7 +26,7 @@ class BoardService {
   async popularBoard() {
     try {
       const result = await Board.findAll({
-        order: [["likes", "DESC"]],
+        order: [["views", "DESC"]],
       });
       return result;
     } catch (err) {

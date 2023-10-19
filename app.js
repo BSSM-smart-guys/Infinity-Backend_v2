@@ -13,7 +13,7 @@ const MemoryStore = require("memorystore")(session);
 app.use(cookieParser());
 app.use(
   session({
-    key: "loginData",
+    key: "novel",
     secret: "testSecret",
     resave: false,
     saveUninitialized: false,

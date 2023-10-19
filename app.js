@@ -16,7 +16,7 @@ app.use(
     key: "novel",
     secret: "testSecret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: new MemoryStore({
       checkPeriod: 86400000,
     }),

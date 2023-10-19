@@ -34,11 +34,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
 
-      userUniqueId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-
       userName: {
         type: DataTypes.STRING(50),
         allowNull: false,
@@ -54,11 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       views: {
-        type: DataTypes.INTEGER,
-        default: 0,
-      },
-
-      likes: {
         type: DataTypes.INTEGER,
         default: 0,
       },

@@ -23,29 +23,21 @@ router.get("/method/popular", async (req, res) => {
   return res.json(result);
 });
 
-router.get("/method/date", async (req, res) => {
-  const result = await boardService.dateBoard();
-  return res.json(result);
-});
+// router.get("/method/date", async (req, res) => {
+//   const result = await boardService.dateBoard();
+//   return res.json(result);
+// });
 
 router.get("/like/:id", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
   const { id } = req.params;
   const result = await boardService.likeBoard(loginData.userUniqueId, id);
-  return res.sendStatus(result);
 });
 
 router.post("/", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
-
-  const boardDTO = req.body;
-  boardDTO.userUniqueId = loginData.userUniqueId;
-  boardDTO.userName = loginData.userName;
-  boardDTO.userProfileImage = loginData.userProfileImage;
-
-  const result = await boardService.InsertBoard(boardDTO);
+  const { boardDTO } = req.body;
+  const random = Math.floor(Math.random() * 12) + 1;
+  boardDTO.userUniqueId = random;
+  const result = await boardService.InsertBoard(random);
   res.sendStatus(result);
 });
 

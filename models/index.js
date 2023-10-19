@@ -10,9 +10,9 @@ const sequelize = new Sequelize(
 );
 
 db.Board = require("./Board")(sequelize, Sequelize);
-db.User = require("./User")(sequelize, Sequelize);
+//db.User = require("./User")(sequelize, Sequelize);
 db.Comment = require("./Comment")(sequelize, Sequelize);
-db.Likes = require("./Likes")(sequelize, Sequelize);
+//db.Likes = require("./Likes")(sequelize, Sequelize);
 
 Object.values(db).forEach((model) => {
   if (model.associate) {

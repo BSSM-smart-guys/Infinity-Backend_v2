@@ -16,7 +16,7 @@ app.use(
     key: "novel",
     secret: "testSecret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: new MemoryStore({
       checkPeriod: 86400000,
     }),
@@ -27,8 +27,8 @@ app.use(
 );
 app.use(
   cors({
-    origin: "*",
-    credentials: "*",
+    origin: true, // '*' 안됨 -> 정확한 주소 또는 origin: true로 해도 됨
+    credentials: true,
   })
 );
 app.use(express.json());

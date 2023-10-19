@@ -7,7 +7,7 @@ const boardService = new BoardService();
 
 router.get("/", async (req, res) => {
   const result = await boardService.showAllBoard();
-
+  console.log(req.session.loginData);
   return res.status(200).json(result);
 });
 

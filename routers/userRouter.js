@@ -15,36 +15,31 @@ router.post("/register", async (req, res) => {
   res.sendStatus(User);
 });
 
-const options = {
-  expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-  sameSite: "None",
-};
-
 router.post("/login", async (req, res) => {
   const userDTO = req.body;
+  const session = req.session;
   const login = await userService.login(userDTO);
   if (!login) return res.sendStatus(401);
   const { userUniqueId, userId, userName, userProfileImage } = login;
-  req.session.loginData = {
+  session.loginData = {
     userUniqueId,
     userId,
     userName,
     userProfileImage,
   };
+  session.save();
 
-  req.session.save();
-
-  res
-    .status(200)
-    .cookie("ssibal", req.session.loginData, options)
-    .json(req.session.loginData);
+  res.status(200).json(session.loginData);
 });
 
 router.get("/logincheck", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.status(200).json({ login: false });
+  console.log(req.session.loginData);
+  if (req.session.loginData === undefined)
+    return res.status(200).json({ login: false });
 
-  return res.status(200).json({ login: true, loginData });
+  return res
+    .status(200)
+    .json({ login: true, loginData: req.session.loginData });
 });
 
 router.get("/logout", async (req, res) => {

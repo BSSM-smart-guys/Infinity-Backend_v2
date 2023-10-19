@@ -11,23 +11,29 @@ const cookieParser = require("cookie-parser");
 const MemoryStore = require("memorystore")(session);
 
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(
   session({
-    key: "novel",
-    secret: "testSecret",
     resave: false,
     saveUninitialized: false,
-    store: new MemoryStore({
-      checkPeriod: 86400000,
-    }),
+    secret: "secret",
+    proxy: true,
     cookie: {
-      expires: 60 * 60 * 1000 * 24, // 쿠키 만료일 (60초 * 60분 * 24 = 1일)
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 5,
+      domain: "*",
+      store: new MemoryStore({
+        checkPeriod: 86400000,
+      }),
+      cookie: {
+        expires: 60 * 60 * 1000 * 24, // 쿠키 만료일 (60초 * 60분 * 24 = 1일)
+      },
     },
   })
 );
 app.use(
   cors({
-    origin: true, // '*' 안됨 -> 정확한 주소 또는 origin: true로 해도 됨
+    origin: true,
     credentials: true,
   })
 );

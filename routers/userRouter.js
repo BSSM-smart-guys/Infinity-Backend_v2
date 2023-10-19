@@ -7,6 +7,7 @@ const userService = new UserService();
 
 router.post("/register", async (req, res) => {
   const userDTO = req.body;
+  console.log(userDTO);
   const random = Math.floor(Math.random() * 12) + 1;
   userDTO.userProfileImage = random;
   const User = await userService.register(userDTO);

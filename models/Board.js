@@ -18,19 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(2000),
         allowNull: false,
       },
-
-      character: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
-
-      event: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
-
-      background: {
-        type: DataTypes.STRING(50),
+      keyword: {
+        type: DataTypes.STRING(200),
         allowNull: false,
       },
 
@@ -52,7 +41,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         default: 0,
       },
-
       image: {
         type: DataTypes.STRING,
         allowNull: false,

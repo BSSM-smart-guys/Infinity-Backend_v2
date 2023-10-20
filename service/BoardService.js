@@ -83,9 +83,7 @@ class BoardService {
     const {
       title,
       novel,
-      character,
-      event,
-      background,
+      keyword,
       userName,
       userProfileImage,
       image,
@@ -101,15 +99,12 @@ class BoardService {
       await Board.create({
         title,
         novel,
-        character,
-        event,
-        background,
+        keyword,
         userName,
         userProfileImage,
         image: imageLocation,
         created: sequelize.literal("NOW()"),
         views: 0,
-        likes: 0,
       });
     } catch (err) {
       console.log(err);

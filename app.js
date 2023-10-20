@@ -5,31 +5,30 @@ const cors = require("cors");
 const app = asyncify(express());
 const router = require("./routers");
 const db = require("./models");
-const port = 3000;
+const port = 3001;
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-const MemoryStore = require("memorystore")(session);
 
 app.use(cookieParser());
-app.set("trust proxy", 1);
-app.use(
-  session({
-    resave: false,
-    saveUninitialized: false,
-    secret: "secret",
-    proxy: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 5,
-      domain: "*",
-      store: new MemoryStore({
-        checkPeriod: 86400000,
-      }),
-      cookie: {
-        expires: 60 * 60 * 1000 * 24, // 쿠키 만료일 (60초 * 60분 * 24 = 1일)
-      },
-    },
-  })
-);
+// app.set("trust proxy", 1);
+// app.use(
+//   session({
+//     resave: false,
+//     saveUninitialized: false,
+//     secret: "secret",
+//     proxy: true,
+//     cookie: {
+//       maxAge: 1000 * 60 * 60 * 5,
+//       domain: "*",
+//       store: new MemoryStore({
+//         checkPeriod: 86400000,
+//       }),
+//       cookie: {
+//         expires: 60 * 60 * 1000 * 24, // 쿠키 만료일 (60초 * 60분 * 24 = 1일)
+//       },
+//     },
+//   })
+// );
 app.use(
   cors({
     origin: true,
@@ -40,10 +39,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", (err, req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // 모든 도메인에서의 요청 허용
-  res.header("Access-Control-Allow-Origin", true); // 모든 도메인에서의 요청 허용
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   var e = err;
   console.error(err.stack);
   res

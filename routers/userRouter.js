@@ -36,7 +36,7 @@ router.post("/login", async (req, res) => {
 
   res
     .status(200)
-    .cookie("ssibal", req.session.loginData, options)
+    .cookie("1234a", req.session.loginData, options)
     .json(req.session.loginData);
 });
 

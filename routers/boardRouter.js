@@ -28,53 +28,46 @@ router.get("/method/date", async (req, res) => {
   return res.json(result);
 });
 
-router.get("/like/:id", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
-  const { id } = req.params;
-  const result = await boardService.likeBoard(loginData.userUniqueId, id);
-  return res.sendStatus(result);
-});
+// router.get("/like/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const result = await boardService.likeBoard(loginData.userUniqueId, id);
+// });
 
 router.post("/", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
-
   const boardDTO = req.body;
-  boardDTO.userUniqueId = loginData.userUniqueId;
-  boardDTO.userName = loginData.userName;
-  boardDTO.userProfileImage = loginData.userProfileImage;
-
+  const random = Math.floor(Math.random() * 12) + 1;
+  boardDTO.userProfileImage = random;
+  console.log(boardDTO);
   const result = await boardService.InsertBoard(boardDTO);
   res.sendStatus(result);
 });
 
-router.put("/:id", async (req, res) => {
-  const { loginData } = req.session;
-  if (!loginData) return res.sendStatus(401);
-  const { id } = req.params;
-  const boardDTO = req.body;
-  const result = await boardService.modifyBoard(
-    id,
-    loginData.userName,
-    boardDTO
-  );
+// router.put("/:id", async (req, res) => {
+//   const { loginData } = req.session;
+//   if (!loginData) return res.sendStatus(401);
+//   const { id } = req.params;
+//   const boardDTO = req.body;
+//   const result = await boardService.modifyBoard(
+//     id,
+//     loginData.userName,
+//     boardDTO
+//   );
 
-  res.sendStatus(result);
-});
+//   res.sendStatus(result);
+// });
 
-router.delete("/:id", async (req, res) => {
-  try {
-    const { loginData } = req.session;
-    const { id } = req.params;
-    if (!loginData) return res.sendStatus(401);
-    const userUniqueId = loginData.userUniqueId;
-    const result = await boardService.deleteBoard(id, userUniqueId);
+// router.delete("/:id", async (req, res) => {
+//   try {
+//     const { loginData } = req.session;
+//     const { id } = req.params;
+//     if (!loginData) return res.sendStatus(401);
+//     const userUniqueId = loginData.userUniqueId;
+//     const result = await boardService.deleteBoard(id, userUniqueId);
 
-    res.sendStatus(result);
-  } catch (err) {
-    console.log(err);
-    return 500;
-  }
-});
+//     res.sendStatus(result);
+//   } catch (err) {
+//     console.log(err);
+//     return 500;
+//   }
+// });
 module.exports = router;

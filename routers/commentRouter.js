@@ -12,34 +12,27 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const commentDTO = req.body;
-  const { userUniqueId, userName, userProfileImage } = req.session.loginData;
-  commentDTO.userUniqueId = userUniqueId;
-  commentDTO.userName = userName;
-  commentDTO.userProfileImage = userProfileImage;
   const result = await commentService.InsertComment(commentDTO);
 
   return res.sendStatus(result);
 });
 
-router.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { userUniqueId } = req.session.loginData;
-  const commentDTO = req.body;
-  const result = await commentService.modifyComment(
-    id,
-    userUniqueId,
-    commentDTO
-  );
+// router.put("/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const { userUniqueId } = req.session.loginData;
+//   const commentDTO = req.body;
+//   const result = await commentService.modifyComment(
+//     id,
+//     userUniqueId,
+//     commentDTO
+//   );
 
-  return res.sendStatus(result);
-});
+//   return res.sendStatus(result);
+// });
 
 router.delete("/:id", async (req, res) => {
   const { id } = req.params;
-  const result = await commentService.deleteComment(
-    id,
-    req.session.loginData.userUniqueId
-  );
+  const result = await commentService.deleteComment(id);
 
   return res.sendStatus(result);
 });

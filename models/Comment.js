@@ -16,18 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(1000),
         allowNull: false,
       },
-      userUniqueId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      userName: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-      },
-      userProfileImage: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+
       created: {
         type: DataTypes.STRING(50),
         allowNull: false,

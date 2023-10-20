@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = asyncify(express());
 const router = require("./routers");
 const db = require("./models");
-const port = 3000;
+const port = 3001;
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 

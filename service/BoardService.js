@@ -103,7 +103,7 @@ class BoardService {
         userName,
         userProfileImage,
         image: imageLocation,
-        created: sequelize.literal("NOW()"),
+        created: sequelize.literal("NOW(), INTERVAL 9 HOUR"),
         views: 0,
       });
     } catch (err) {

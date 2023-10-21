@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       novel: {
-        type: DataTypes.STRING(2000),
+        type: DataTypes.STRING,
         allowNull: false,
       },
       keyword: {

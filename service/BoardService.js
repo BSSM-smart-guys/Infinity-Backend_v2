@@ -89,8 +89,11 @@ class BoardService {
       image,
       tempImage,
     } = boardInfo;
+    console.log(boardInfo);
     const saveImage = fs.readFileSync("public/images/temp/" + image);
+    console.log(saveImage);
     await tempImage.map((v) => fs.unlinkSync(`public/images/temp/${v}`));
+    console.log("옮기기완료");
     if (!fs.existsSync("public/images/release"))
       fs.mkdirSync("public/images/release");
     fs.writeFileSync("public/images/release/" + image, saveImage);

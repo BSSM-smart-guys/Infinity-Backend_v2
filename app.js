@@ -8,7 +8,7 @@ const db = require("./models");
 const port = 3001;
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-
+const path = require("path");
 app.use(cookieParser());
 // app.set("trust proxy", 1);
 // app.use(
@@ -47,7 +47,10 @@ app.use("/", (err, req, res, next) => {
 });
 app.use("/api", router);
 app.use("/image", express.static("./public/images"));
-
+app.use(express.static(__dirname + "/public"));
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "public", "index.html"));
+});
 db.sequelize
   .sync()
   .then(() => {

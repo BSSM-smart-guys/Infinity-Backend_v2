@@ -47,10 +47,7 @@ app.use("/", (err, req, res, next) => {
 });
 app.use("/api", router);
 app.use("/image", express.static("./public/images"));
-app.use(express.static(__dirname + "/public"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "public", "index.html"));
-});
+
 db.sequelize
   .sync()
   .then(() => {

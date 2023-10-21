@@ -7,7 +7,7 @@ class CommentService {
   }
 
   async InsertComment(comment) {
-    comment.created = sequelize.literal("NOW()");
+    comment.created = sequelize.literal("NOW(), INTERVAL 9 HOUR");
     await Comment.create(comment);
 
     return 200;

@@ -8,7 +8,7 @@ const db = require("./models");
 const port = 3001;
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
-
+const path = require("path");
 app.use(cookieParser());
 // app.set("trust proxy", 1);
 // app.use(

@@ -1,30 +1,47 @@
-const { laas} = require("../config");
-const axios = require("axios");
+require("dotenv").config();
+const OpenAI = require("openai");
 
-const callLaas = (dto) => {
-    let params = {};
-    Object.entries(dto).forEach(([key, value]) => params[key] = value.toString());
+const callLaas = async (dto) => {
+  const openai = new OpenAI({
+    apiKey: process.env.AI_APIKEY,
+  });
+  console.log(dto);
+  const response = await openai.chat.completions.create({
+    model: "gpt-4",
+    messages: [
+      {
+        role: "user",
+        content: `Write a novel within 400~500 characters in English. genre: ${dto.genre}, keyword: ${dto.keywords}, character: ${dto.character},event: ${dto.event}, the setting of the novel: ${dto.background}.`,
+      },
+    ],
+  });
+  return response.choices[0].message.content;
+};
 
-    const headers = {
-        headers: {
-            project: laas.projectCode,
-            apiKey: laas.apiKey,
-            "Content-Type": "application/json"
-        }
-    }
+// const callLaas = (dto) => {
+//     let params = {};
+//     Object.entries(dto).forEach(([key, value]) => params[key] = value.toString());
 
-    const body = {
-        hash: laas.hash,
-        params
-    }
+//     const headers = {
+//         headers: {
+//             project: laas.projectCode,
+//             apiKey: laas.apiKey,
+//             "Content-Type": "application/json"
+//         }
+//     }
 
-    return axios.post(laas.endpoint, body, headers)
-        .then(res => {
-            return res.data.choices[0].message.content;
-        })
-        .catch(err => {
-            return err;
-        });
-}
+//     const body = {
+//         hash: laas.hash,
+//         params
+//     }
 
-module.exports = { callLaas }
+//     return axios.post(laas.endpoint, body, headers)
+//         .then(res => {
+//             return res.data.choices[0].message.content;
+//         })
+//         .catch(err => {
+//             return err;
+//         });
+// }
+
+module.exports = { callLaas };

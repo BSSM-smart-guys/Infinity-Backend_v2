@@ -11,7 +11,7 @@ const callLaas = async (dto) => {
     messages: [
       {
         role: "user",
-        content: `Write a novel within 400~500 characters in English. genre: ${dto.genre}, keyword: ${dto.keywords}, character: ${dto.character},event: ${dto.event}, the setting of the novel: ${dto.background}.`,
+        content: `Write a novel within 500~600 characters in Korean. then translate it to Korean. send me only Korean version please. genre: ${dto.genre}, keyword: ${dto.keywords}, character: ${dto.character},event: ${dto.event}, the setting of the novel: ${dto.background}.`,
       },
     ],
   });
